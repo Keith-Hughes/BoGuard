@@ -36,7 +36,7 @@ public class Web3Engine {
         try {
             credentials = WalletUtils.loadCredentials(password, keystoreFilePath);
         } catch (IOException | CipherException e) {
-            throw new RuntimeException(e);
+            System.out.println("Unable to load Credentials: "+e.getMessage());;
         }
     }
 
@@ -51,7 +51,6 @@ public class Web3Engine {
 
     public static String addProduct(Web3j web3j, Credentials credentials, String contractAddress, String manufacturer, String manufactureDateTime, String expiryDate, String productDescription, String locationManufactured, String batchNumber  ) throws Exception {
         BigInteger nonce = web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.PENDING).send().getTransactionCount();
-        System.out.println(nonce);
 
         // Gas details
         BigInteger gasLimit = BigInteger.valueOf(300000); // Change as needed
@@ -73,15 +72,12 @@ public class Web3Engine {
                 encodedFunction
         );
 
-        // Sign the raw transaction
         byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials);
         System.out.println(signedMessage);
 
-        // Send the raw transaction
         String hexValue = Numeric.toHexString(signedMessage);
         String transactionHash = web3j.ethSendRawTransaction(hexValue).send().getTransactionHash();
 
-        // Print the transaction hash
         System.out.println("Transaction Hash: " + transactionHash);
         return transactionHash;
     }
@@ -98,22 +94,22 @@ public class Web3Engine {
     public static boolean confirmTransactionHash(String hashCode, List<JsonNode> data) {
         // Get the transaction receipt
 
-        // for (JsonNode i : data) {
-        //     if (i.get("hash").asText().equalsIgnoreCase(hashCode)) {
-        //         return true;
-        //     }
+         for (JsonNode i : data) {
+             if (i.get("hash").asText().equalsIgnoreCase(hashCode)) {
+                 return true;
+             }
 
-        // }
-       Optional<TransactionReceipt> transactionReceipt;
-       try {
-           transactionReceipt = web3j.ethGetTransactionReceipt(hashCode).send().getTransactionReceipt();
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
+         }
+//       Optional<TransactionReceipt> transactionReceipt;
+//       try {
+//           transactionReceipt = web3j.ethGetTransactionReceipt(hashCode).send().getTransactionReceipt();
+//       } catch (IOException e) {
+//           throw new RuntimeException(e);
+//       }
 
 
        // Check if the transaction receipt is not null and the status is successful
-       return transactionReceipt.isPresent() && transactionReceipt.get().isStatusOK();
-        return false;};
+       return false;
+        }
 
 }

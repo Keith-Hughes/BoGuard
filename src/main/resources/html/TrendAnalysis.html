@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Trend Analysis</title>
-    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <h1>Trend Analysis</h1>
@@ -12,7 +12,7 @@
 
 <h2>Product Information</h2>
 <table border="1">
-    <thead>
+    <thead class>
     <tr>
         <th>Product Name</th>
         <th>Amount</th>
@@ -30,8 +30,10 @@
     </tbody>
 </table>
 
-
-<p id="advice">Advice</p>
+    <h2>ADVICE :</h2>
+<p id="advice"><span th:text="${businessData.advice}"></span></p>
+<p id="adviceDry"><span th:text="${businessData.adviceDry}"></span></p>
+<p id="adviceTop"><span th:text="${businessData.adviceTop}"></span></p>
 <p id="profitability">Profitability</p>
 
 <!-- Add JavaScript for additional interactivity -->

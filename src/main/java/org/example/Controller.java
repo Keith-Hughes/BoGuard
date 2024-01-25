@@ -130,8 +130,7 @@ public class Controller {
 
         data.setProductInfo(sampleData);
         data.setExpenses();
+        data.setRevenue();
         return data;
     }
-
-
 }
